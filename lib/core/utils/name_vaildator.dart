@@ -1,4 +1,4 @@
-String? nameVaildator(String? value) {
+String? nameValidator(String? value) {
   if (value == null || value.isEmpty) {
     return 'Please enter your name';
   }

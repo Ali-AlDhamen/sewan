@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sewan/core/models/user_model.dart';
+import 'package:sewan/features/auth/controller/auth_controller.dart';
 import 'package:sewan/router/app_router.dart';
 import 'package:sewan/theme/palette.dart';
 import 'package:sewan/theme/theme_provider.dart';
@@ -26,14 +29,13 @@ void main() async {
 class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
-  // // =========== Functions ===========
-  // void getData(WidgetRef ref, User data) async {
-  //   UserModel? userModel = await ref
-  //       .watch(authControllerProvider.notifier)
-  //       .getUserData(data.uid)
-  //       .first;
-  //   ref.read(userProvider.notifier).update((state) => userModel);
-  // }
+
+  void getData(WidgetRef ref, User data) async {
+    UserModel? userModel = await ref
+        .watch(authControllerProvider.notifier)
+        .getUserData(data.uid);
+    ref.read(userProvider.notifier).update((state) => userModel);
+  }
 
   // ========== Widget ==========
   @override
@@ -42,14 +44,14 @@ class MainApp extends ConsumerWidget {
     final router = ref.watch(goRouterProvider);
     final isDark = ref.watch(themeControllerProvider);
 
-    // // Auth state
-    // ref.watch(authStateChangeProvider).whenData(
-    //   (data) {
-    //     if (data != null) {
-    //       getData(ref, data);
-    //     }
-    //   },
-    // );
+
+    ref.watch(authStateChangeProvider).whenData(
+      (data) {
+        if (data != null) {
+          getData(ref, data);
+        }
+      },
+    );
 
     // =========== Widget Design ===========
     return ScreenUtilInit(
