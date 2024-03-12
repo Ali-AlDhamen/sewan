@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.3"
+  animated_toggle_switch:
+    dependency: "direct main"
+    description:
+      name: animated_toggle_switch
+      sha256: "35e3d6c74eef79c415ac3986046c35cb1ea42720afce13ec7f1a014f72dfd71c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.2"
   archive:
     dependency: transitive
     description:
@@ -257,6 +265,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
+  dart_openai:
+    dependency: "direct main"
+    description:
+      name: dart_openai
+      sha256: "853bb57fed6a71c3ba0324af5cb40c16d196cf3aa55b91d244964ae4a241ccf1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   dart_style:
     dependency: transitive
     description:
@@ -273,6 +289,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  fetch_api:
+    dependency: transitive
+    description:
+      name: fetch_api
+      sha256: "74a1e426d41ed9c89353703b2d80400c5d0ecfa144b2d8a7bd8882fbc9e48787"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
+  fetch_client:
+    dependency: transitive
+    description:
+      name: fetch_client
+      sha256: "83c07b07a63526a43630572c72715707ca113a8aa3459efbc7b2d366b79402af"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   ffi:
     dependency: transitive
     description:
@@ -382,6 +414,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_dotenv:
+    dependency: "direct main"
+    description:
+      name: flutter_dotenv
+      sha256: "9357883bdd153ab78cbf9ffa07656e336b8bbb2b5a3ca596b0b27e119f7c7d77"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -448,6 +488,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: "direct main"
+    description:
+      name: fluttertoast
+      sha256: dfdde255317af381bfc1c486ed968d5a43a2ded9c931e87cbecd88767d6a71c1
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.2.4"
   fpdart:
     dependency: "direct main"
     description:
