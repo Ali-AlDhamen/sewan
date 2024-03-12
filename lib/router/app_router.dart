@@ -7,10 +7,9 @@ import 'package:sewan/features/home/screens/home_screen.dart';
 
 final goRouterProvider = Provider((ref) {
   final rootNavigatorKey = GlobalKey<NavigatorState>();
-  final homeKey = GlobalKey<NavigatorState>(debugLabel: 'home');
-  final trackKey = GlobalKey<NavigatorState>(debugLabel: 'track');
-  final giftsKey = GlobalKey<NavigatorState>(debugLabel: 'Gifts');
-  final membershipKey = GlobalKey<NavigatorState>(debugLabel: 'Membership');
+  final homeKey = GlobalKey<NavigatorState>(debugLabel: 'Home');
+  final learnKey = GlobalKey<NavigatorState>(debugLabel: 'Learn');
+  final leaderboardKey = GlobalKey<NavigatorState>(debugLabel: 'Leaderboard');
   final profileKey = GlobalKey<NavigatorState>(debugLabel: 'Profile');
 
   return GoRouter(
@@ -32,7 +31,7 @@ final goRouterProvider = Provider((ref) {
                   builder: (context, state) {
                     return Container(
                       color: Colors.red,
-                      child: Center(
+                      child: const Center(
                         child: Text('home'),
                       ),
                     );
@@ -41,15 +40,15 @@ final goRouterProvider = Provider((ref) {
               ],
             ),
             StatefulShellBranch(
-              navigatorKey: trackKey,
+              navigatorKey: learnKey,
               routes: [
                 GoRoute(
-                  path: '/track',
+                  path: '/learn',
                   builder: (context, state) {
                     return Container(
                       color: Colors.red,
-                      child: Center(
-                        child: Text('track'),
+                      child: const Center(
+                        child: Text('learn'),
                       ),
                     );
                   },
@@ -57,31 +56,15 @@ final goRouterProvider = Provider((ref) {
               ],
             ),
             StatefulShellBranch(
-              navigatorKey: giftsKey,
+              navigatorKey: leaderboardKey,
               routes: [
                 GoRoute(
-                  path: '/gifts',
+                  path: '/leaderboard',
                   builder: (context, state) {
                     return Container(
                       color: Colors.red,
-                      child: Center(
-                        child: Text('gifts'),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              navigatorKey: membershipKey,
-              routes: [
-                GoRoute(
-                  path: '/membership',
-                  builder: (context, state) {
-                    return Container(
-                      color: Colors.red,
-                      child: Center(
-                        child: Text('membership'),
+                      child: const Center(
+                        child: Text('leaderboard'),
                       ),
                     );
                   },
@@ -96,7 +79,7 @@ final goRouterProvider = Provider((ref) {
                   builder: (context, state) {
                     return Container(
                       color: Colors.red,
-                      child: Center(
+                      child: const Center(
                         child: Text('profile'),
                       ),
                     );

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "339470578297",
+    "project_id": "sewan-b94fe",
+    "storage_bucket": "sewan-b94fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339470578297:android:348ebb824c725a4decdaa8",
+        "android_client_info": {
+          "package_name": "com.example.sewan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvrUDyGv4JM0ATvkWkBP-z6enl-i0kmPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

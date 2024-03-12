@@ -44,19 +44,14 @@ class HomeScreen extends ConsumerWidget {
             label: "home",
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.local_activity),
-            icon: Icon(Icons.local_activity_outlined),
-            label: "Track",
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.card_giftcard),
-            icon: Icon(Icons.card_giftcard_outlined),
+            selectedIcon: Icon(Icons.book),
+            icon: Icon(Icons.book_outlined),
             label: "Redeem",
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.cabin_outlined),
-            icon: Icon(Icons.cabin),
-            label: "Membership",
+            selectedIcon: Icon(Icons.leaderboard),
+            icon: Icon(Icons.leaderboard_outlined),
+            label: "Leaderboard",
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.person),
