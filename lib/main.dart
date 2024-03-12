@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sewan/core/models/user_model.dart';
+import 'package:sewan/core/services/openai_services.dart';
 import 'package:sewan/features/auth/controller/auth_controller.dart';
 import 'package:sewan/router/app_router.dart';
 import 'package:sewan/theme/palette.dart';
@@ -14,6 +17,7 @@ import 'firebase_options.dart';
 // ...
 
 void main() async {
+  await dotenv.load(fileName: "/Users/alidhamen/projects/work/sewan/.env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -59,6 +63,7 @@ class MainApp extends ConsumerWidget {
       minTextAdapt: true,
       builder: (context, child) {
         return MaterialApp.router(
+          builder: FToastBuilder(),
           debugShowCheckedModeBanner: false,
           title: 'PMUSocialize',
           theme: Palette.lightModeThemeData,
