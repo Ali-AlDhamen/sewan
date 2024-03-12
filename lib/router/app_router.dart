@@ -7,6 +7,10 @@ import 'package:sewan/features/auth/controller/auth_controller.dart';
 import 'package:sewan/features/auth/repository/auth_repository.dart';
 import 'package:sewan/features/auth/view/signin_screen.dart';
 import 'package:sewan/features/auth/view/signup_screen.dart';
+import 'package:sewan/features/flashcards/view/courses_screen.dart';
+import 'package:sewan/features/flashcards/view/flashcard_learning_screen.dart';
+import 'package:sewan/features/flashcards/view/lecture_screen.dart';
+import 'package:sewan/features/flashcards/view/lectures_screen.dart';
 import 'package:sewan/features/home/screens/home_screen.dart';
 import 'package:sewan/router/go_refresh_stream_provider.dart';
 
@@ -68,13 +72,33 @@ final goRouterProvider = Provider((ref) {
               GoRoute(
                 path: '/learn',
                 builder: (context, state) {
-                  return Container(
-                    color: Colors.red,
-                    child: const Center(
-                      child: Text('learn'),
-                    ),
-                  );
+                  return const CoursesScreen();
                 },
+                routes: [
+                  GoRoute(
+                    name: 'Flashcards session',
+                    path: 'flashcards/:sessionId',
+                    builder: (context, state) {
+                      return const FlashCardLearning();
+                    },
+                  ),
+                  GoRoute(
+                    name: 'course screen',
+                    path: ':courseId',
+                    builder: (context, state) {
+                      return const LecturesScreen();
+                    },
+                    routes: [
+                      GoRoute(
+                        name: 'lecture screen',
+                        path: ':lectureId',
+                        builder: (context, state) {
+                          return const LectureScreen();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
