@@ -84,9 +84,12 @@ final goRouterProvider = Provider((ref) {
                   ),
                   GoRoute(
                     name: 'course screen',
-                    path: ':courseId',
+                    path: 'course/:courseId',
                     builder: (context, state) {
-                      return const LecturesScreen();
+                      final courseId = state.pathParameters['courseId'];
+                      return LecturesScreen(
+                        courseId: courseId!,
+                      );
                     },
                     routes: [
                       GoRoute(
