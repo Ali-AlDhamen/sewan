@@ -12,6 +12,8 @@ import 'package:sewan/features/flashcards/view/flashcard_learning_screen.dart';
 import 'package:sewan/features/flashcards/view/lecture_screen.dart';
 import 'package:sewan/features/flashcards/view/lectures_screen.dart';
 import 'package:sewan/features/home/screens/home_screen.dart';
+import 'package:sewan/features/pet/screens/pet_screen.dart';
+import 'package:sewan/router/app_routes.dart';
 import 'package:sewan/router/go_refresh_stream_provider.dart';
 
 final goRouterProvider = Provider((ref) {
@@ -31,14 +33,15 @@ final goRouterProvider = Provider((ref) {
     redirectLimit: 2,
     redirect: (context, state) {
       final path = state.uri.path;
-      final userIsLogging = path == '/signin' || path == '/signup';
+      final userIsLogging =
+          path == AppRoutes.login.path || path == AppRoutes.signUp.path;
       final userIsLoggedIn =
           ref.read(authRepositoryProvider).currentUser != null;
 
       if (userIsLogging && userIsLoggedIn) {
-        return '/home';
+        return AppRoutes.home.path;
       } else if (!userIsLogging && !userIsLoggedIn) {
-        return '/signin';
+        return AppRoutes.login.path;
       } else {
         return null;
       }
@@ -54,14 +57,10 @@ final goRouterProvider = Provider((ref) {
             navigatorKey: homeKey,
             routes: [
               GoRoute(
-                path: '/home',
+                path: AppRoutes.home.path,
+                name: AppRoutes.home.name,
                 builder: (context, state) {
-                  return Container(
-                    color: Colors.red,
-                    child: const Center(
-                      child: Text('home'),
-                    ),
-                  );
+                  return const PetScreen();
                 },
               ),
             ],
@@ -164,11 +163,13 @@ final goRouterProvider = Provider((ref) {
         ],
       ),
       GoRoute(
-        path: '/signin',
+        path: AppRoutes.login.path,
+        name: AppRoutes.login.name,
         builder: (context, state) => const SigninScreen(),
       ),
       GoRoute(
-        path: '/signup',
+        path: AppRoutes.signUp.path,
+        name: AppRoutes.signUp.name,
         builder: (context, state) => const SignUpScreen(),
       ),
     ],

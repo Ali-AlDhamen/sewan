@@ -11,7 +11,7 @@ class AppRoutes {
   );
 
   static final RouteModel home = RouteModel(
-    path: "/",
+    path: "/home",
     name: "HomeScreen",
   );
 }
