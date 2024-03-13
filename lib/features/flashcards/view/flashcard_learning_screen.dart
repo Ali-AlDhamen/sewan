@@ -7,53 +7,51 @@ class FlashCardLearning extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(20),
+          leading: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          child: RichText(
-            text: const TextSpan(
-              text: '1',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: '/10',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
+          title: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: RichText(
+              text: const TextSpan(
+                text: '1',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '/10',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
-        ],
-
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(5),
-          child: LinearProgressIndicator(
-            value: 0.5,
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
-          ),
-        )
-      ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.more_vert),
+              onPressed: () {},
+            ),
+          ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(5),
+            child: LinearProgressIndicator(
+              value: 0.5,
+              backgroundColor: Colors.grey.withOpacity(0.5),
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+            ),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
@@ -95,28 +93,29 @@ class FlashCardLearning extends ConsumerWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                  
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      primary: Colors.green,
+                      backgroundColor: Colors.green,
                     ),
                     onPressed: () {},
-                    child: const Text('Mastered', style: TextStyle(color: Colors.white)),
+                    child: const Text('Mastered',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                       shape: RoundedRectangleBorder(
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      primary: Colors.red,
+                      backgroundColor: Colors.red,
                     ),
                     onPressed: () {},
-                    child: const Text('Need Review', style: TextStyle(color: Colors.white)),
+                    child: const Text('Need Review',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],
@@ -124,6 +123,6 @@ class FlashCardLearning extends ConsumerWidget {
           ],
         ),
       ),
-    );  
+    );
   }
 }
