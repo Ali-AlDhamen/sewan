@@ -17,7 +17,7 @@ import 'firebase_options.dart';
 // ...
 
 void main() async {
-  await dotenv.load(fileName: "/Users/alidhamen/projects/work/sewan/.env");
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -33,11 +33,9 @@ void main() async {
 class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
-
   void getData(WidgetRef ref, User data) async {
-    UserModel? userModel = await ref
-        .watch(authControllerProvider.notifier)
-        .getUserData(data.uid);
+    UserModel? userModel =
+        await ref.watch(authControllerProvider.notifier).getUserData(data.uid);
     ref.read(userProvider.notifier).update((state) => userModel);
   }
 
@@ -47,7 +45,6 @@ class MainApp extends ConsumerWidget {
     // =========== Variables ===========
     final router = ref.watch(goRouterProvider);
     final isDark = ref.watch(themeControllerProvider);
-
 
     ref.watch(authStateChangeProvider).whenData(
       (data) {
