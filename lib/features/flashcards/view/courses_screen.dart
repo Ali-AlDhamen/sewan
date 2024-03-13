@@ -4,6 +4,7 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sewan/core/utils/pick_image.dart';
+import 'package:sewan/features/flashcards/controller/flashcards_controller.dart';
 import 'package:sewan/features/flashcards/view/widgets/course_widget.dart';
 
 class CoursesScreen extends ConsumerStatefulWidget {
@@ -19,11 +20,28 @@ class _CoursesScreenState extends ConsumerState<CoursesScreen> {
       appBar: AppBar(
         title: const Text('Courses'),
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return const CourseWidget();
+      body: ref.watch(userCoursesProvider).when(
+        data: (courses) {
+          if (courses.isEmpty) {
+            return const Center(
+              child: Text('No courses found'),
+            );
+          }
+          return ListView.builder(
+            itemCount: courses.length,
+            itemBuilder: (context, index) {
+              return CourseWidget(course: courses[index]);
+            },
+          );
         },
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (e, st) => Center(
+          child: Text(e.toString()),
+        ),
+
+      
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -40,17 +58,19 @@ class _CoursesScreenState extends ConsumerState<CoursesScreen> {
   }
 }
 
-class CreateCourseModal extends StatefulWidget {
+class CreateCourseModal extends ConsumerStatefulWidget {
   const CreateCourseModal({
     super.key,
   });
 
   @override
-  State<CreateCourseModal> createState() => _CreateCourseModalState();
+  ConsumerState<CreateCourseModal> createState() => _CreateCourseModalState();
 }
 
-class _CreateCourseModalState extends State<CreateCourseModal> {
+class _CreateCourseModalState extends ConsumerState<CreateCourseModal> {
   int value = 0;
+  int selectedCourse = 0;
+  final TextEditingController courseTitleController = TextEditingController();
 
   Color colorBuilder(int i) {
     if (i == value) {
@@ -140,6 +160,7 @@ class _CreateCourseModalState extends State<CreateCourseModal> {
                     horizontal: 40,
                   ),
                   child: TextField(
+                    controller: courseTitleController,
                     cursorColor: Colors.deepPurple,
                     decoration: InputDecoration(
                       hintText: 'Course title',
@@ -295,8 +316,12 @@ class _CreateCourseModalState extends State<CreateCourseModal> {
                         child: Text('Course 2'),
                       ),
                     ],
-                    value: 0,
-                    onChanged: (value) {},
+                    value: selectedCourse,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedCourse = value as int;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -318,7 +343,11 @@ class _CreateCourseModalState extends State<CreateCourseModal> {
             ),
             child: TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                if (value ==0){
+                  createCourse();
+                } else {
+                  
+                }
               },
               child: Text(
                 value == 0 ? 'Create Course' : 'Upload Lecture',
@@ -333,5 +362,12 @@ class _CreateCourseModalState extends State<CreateCourseModal> {
         ],
       ),
     );
+  }
+
+  void createCourse() {
+    ref.read(flashCardsControllerProvider.notifier).createCourse(
+          context: context,
+          name: courseTitleController.text.trim(),
+        );
   }
 }
