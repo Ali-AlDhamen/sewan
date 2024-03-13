@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sewan/core/constants/assets_constants.dart';
+import 'package:sewan/core/models/lecture_model.dart';
 
 class LectureWidget extends ConsumerWidget {
-  const LectureWidget({super.key});
+  final LectureModel lecture;
+  const LectureWidget({super.key, required this.lecture});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed('lecture screen', pathParameters: {'lectureId': '1', 'courseId': '1'});
+        context.pushNamed('lecture screen',
+            pathParameters: {'lectureId': '1', 'courseId': '1'});
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -38,16 +41,19 @@ class LectureWidget extends ConsumerWidget {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  'lecture Title',
+                  lecture.title,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
             Row(
               children: [
-                const Text('30'),
-                Image.asset(AssetsConstants.flashcardsIcon,
-                    width: 20, height: 20)
+                Text(lecture.flashCards.length.toString()),
+                Image.asset(
+                  AssetsConstants.flashcardsIcon,
+                  width: 20,
+                  height: 20,
+                )
               ],
             ),
           ],
