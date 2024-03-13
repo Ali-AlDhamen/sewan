@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sewan/core/models/course_model.dart';
+import 'package:sewan/core/utils/random_color_generator.dart';
 
 class CourseWidget extends ConsumerWidget {
-  const CourseWidget({super.key});
+  final CourseModel course;
+  const CourseWidget({super.key, required this.course});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
@@ -29,24 +32,26 @@ class CourseWidget extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-             Row(
+              Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.grey,
-                  ),
+                  CircleAvatar(
+                      radius: 25,
+                      backgroundColor: randomColorGenerator(),
+                      child: const Icon(Icons.book, color: Colors.white)),
                   const SizedBox(width: 10),
                   Text(
-                    'Course Title',
+                    course.name,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
-      
               Row(
                 children: [
-                  const Text('5'),
-                  const Icon(Icons.book),
+                  Text(
+                    course.lectures.length.toString(),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const Icon(Icons.book, color: Colors.grey, size: 20),
                 ],
               ),
             ],
