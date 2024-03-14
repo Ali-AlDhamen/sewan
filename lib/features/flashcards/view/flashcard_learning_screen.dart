@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sewan/core/models/flashcard_model.dart';
+import 'package:sewan/features/flashcards/state/flashcard_learning_state_controller.dart';
 
 class FlashCardLearning extends ConsumerWidget {
   const FlashCardLearning({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(flashCardsLearningStateControllerProvider);
+    print(state.clicked);
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(
@@ -20,16 +25,16 @@ class FlashCardLearning extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: RichText(
-              text: const TextSpan(
-                text: '1',
-                style: TextStyle(
+              text: TextSpan(
+                text: state.currentIndex.toString(),
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: '/10',
-                    style: TextStyle(
+                    text: '/${state.flashCards.length}',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     ),
@@ -47,7 +52,7 @@ class FlashCardLearning extends ConsumerWidget {
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(5),
             child: LinearProgressIndicator(
-              value: 0.5,
+              value: state.currentIndex / state.flashCards.length,
               backgroundColor: Colors.grey.withOpacity(0.5),
               valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
             ),
@@ -57,33 +62,44 @@ class FlashCardLearning extends ConsumerWidget {
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.grey,
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: const [
-                    SizedBox(height: 8),
-                    Text(
-                      'Twjwebjkewj jwdbiwbe dwbih bew bdwihbwie erm',
-                      textAlign: TextAlign.center,
-                    ),
-                    Divider(),
-                    Text(
-                      'lorem ewbbweibwe dwejhhdw xhwbiwbwx xbwihb edhbdwi dhwbhew ehbbdhbwd',
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+              child: GestureDetector(
+                onTap: () {
+                  ref
+                      .read(flashCardsLearningStateControllerProvider.notifier)
+                      .show();
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      Text(
+                        state.flashCards[state.currentIndex].term,
+                        textAlign: TextAlign.center,
+                      ),
+                      const Divider(),
+                      AnimatedOpacity(
+                        opacity: state.clicked ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 200),
+                        child: Text(
+                          state.flashCards[state.currentIndex].definition,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -98,8 +114,20 @@ class FlashCardLearning extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       backgroundColor: Colors.green,
+                      disabledBackgroundColor: Colors.grey.withOpacity(0.5),
+
                     ),
-                    onPressed: () {},
+                    onPressed: !state.clicked
+                        ? null
+                        :() {
+                      ref
+                          .read(flashCardsLearningStateControllerProvider
+                              .notifier)
+                          .changeFlashCardStatus(
+                            flashcard: state.flashCards[state.currentIndex],
+                            status: FlashCardStatus.completed,
+                          );
+                    },
                     child: const Text('Mastered',
                         style: TextStyle(color: Colors.white)),
                   ),
@@ -112,8 +140,20 @@ class FlashCardLearning extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       backgroundColor: Colors.red,
+                      disabledBackgroundColor: Colors.grey.withOpacity(0.5),
                     ),
-                    onPressed: () {},
+                    onPressed: !state.clicked
+                        ? null
+                        : () {
+                            ref
+                                .read(flashCardsLearningStateControllerProvider
+                                    .notifier)
+                                .changeFlashCardStatus(
+                                  flashcard:
+                                      state.flashCards[state.currentIndex],
+                                  status: FlashCardStatus.notCompleted,
+                                );
+                          },
                     child: const Text('Need Review',
                         style: TextStyle(color: Colors.white)),
                   ),

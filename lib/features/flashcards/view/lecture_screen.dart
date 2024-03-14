@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sewan/core/models/flashcard_model.dart';
 import 'package:sewan/core/models/get_lecture_params.dart';
+import 'package:sewan/features/auth/controller/auth_controller.dart';
 import 'package:sewan/features/flashcards/controller/flashcards_controller.dart';
+import 'package:sewan/features/flashcards/state/flashcard_learning_state_controller.dart';
 import 'package:sewan/features/flashcards/view/widgets/flashcard_widget.dart';
 
 class LectureScreen extends ConsumerStatefulWidget {
@@ -232,11 +234,12 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                                       ),
                                       child: TextButton(
                                         onPressed: () {
-                                          context.pushNamed(
-                                              'Flashcards session',
-                                              pathParameters: {
-                                                'sessionId': '1'
-                                              });
+                                          ref.read(flashCardsLearningStateControllerProvider.notifier).startLearning(
+                                            flashCards: lecture.flashCards,
+                                            courseId: lecture.courseId,
+                                            lectureId: lecture.id,
+                                            userId: ref.read(userProvider)?.id ?? '',
+                                          );
                                         },
                                         child: const Text(
                                           "Learn by Flashcards",

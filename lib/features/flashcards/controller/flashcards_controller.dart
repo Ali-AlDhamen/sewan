@@ -142,4 +142,27 @@ class FlashCardsController extends StateNotifier<AsyncValue<void>> {
     );
     return result;
   }
+
+  Future<void> changeFlashCardStatus({
+    required String courseId,
+    required String lectureId,
+    required FlashCardModel flashCardModel,
+    required BuildContext context,
+  }) async {
+    final userId = _ref.read(userProvider)?.id ?? '';
+    final result = await _flashCardsRepository.changeFlashCardStatus(
+      userId: userId,
+      courseId: courseId,
+      lectureId: lectureId,
+      flashCardModel: flashCardModel,
+    );
+    result.fold(
+      (l) => showToast(
+        context:  context,
+        message: l.message,
+        type: ToastType.error,
+      ),
+      (r) {},
+    );
+  }
 }
