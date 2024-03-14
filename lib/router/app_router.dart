@@ -95,7 +95,12 @@ final goRouterProvider = Provider((ref) {
                         name: 'lecture screen',
                         path: ':lectureId',
                         builder: (context, state) {
-                          return const LectureScreen();
+                          final courseId = state.pathParameters['courseId'];
+                          final lectureId = state.pathParameters['lectureId'];
+                          return LectureScreen(
+                            courseId: courseId!,
+                            lectureId: lectureId!,
+                          );
                         },
                       ),
                     ],

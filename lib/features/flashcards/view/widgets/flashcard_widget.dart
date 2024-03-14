@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sewan/core/models/flashcard_model.dart';
 
 class FlashcardWidget extends ConsumerWidget {
-  const FlashcardWidget({super.key});
+  final FlashCardModel flashCard;
+  const FlashcardWidget({super.key, required this.flashCard});
+
+  Color getStatusColor(FlashCardStatus status) {
+    switch (status) {
+      case FlashCardStatus.completed:
+        return Colors.green;
+      case FlashCardStatus.notCompleted:
+        return Colors.red;
+      case FlashCardStatus.notStarted:
+        return Colors.grey;
+      default:
+        return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
@@ -13,9 +29,9 @@ class FlashcardWidget extends ConsumerWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
         // border at top
-        border: const Border(
+        border: Border(
           top: BorderSide(
-            color: Colors.green,
+            color: getStatusColor(flashCard.status),
             width: 5,
           ),
         ),
@@ -39,14 +55,17 @@ class FlashcardWidget extends ConsumerWidget {
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   children: [
-                    SizedBox(height: 8),
-                    Text('Twjwebjkewj jwdbiwbe dwbih bew bdwihbwie erm', textAlign: TextAlign.center,),
-                    Divider(),
-                    Text('lorem ewbbweibwe dwejhhdw xhwbiwbwx xbwihb edhbdwi dhwbhew ehbbdhbwd', textAlign: TextAlign.center),
+                    const SizedBox(height: 8),
+                    Text(
+                      flashCard.term,
+                      textAlign: TextAlign.center,
+                    ),
+                    const Divider(),
+                    Text(flashCard.definition, textAlign: TextAlign.center),
                   ],
                 ),
               ),

@@ -369,5 +369,8 @@ class _CreateCourseModalState extends ConsumerState<CreateCourseModal> {
           context: context,
           name: courseTitleController.text.trim(),
         );
+
+    Navigator.pop(context);
+    ref.invalidate(userCoursesProvider);
   }
 }

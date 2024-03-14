@@ -50,7 +50,7 @@ class LectureModel {
     return LectureModel(
       title: map['title'] as String,
       id: map['id'] as String,
-      flashCards: List<FlashCardModel>.from((map['flashCards'] as List<int>).map<FlashCardModel>((x) => FlashCardModel.fromMap(x as Map<String,dynamic>),),),
+      flashCards: List<FlashCardModel>.from((map['flashCards'] as List<dynamic>).map<FlashCardModel>((x) => FlashCardModel.fromMap(x as Map<String,dynamic>),),),
       courseId: map['courseId'] as String,
       userId: map['userId'] as String,
     );
