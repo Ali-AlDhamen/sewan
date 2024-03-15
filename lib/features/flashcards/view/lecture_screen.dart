@@ -193,90 +193,7 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
                     onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.w, vertical: 10.h),
-                            child: SizedBox(
-                              height: 300.h,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  // toggle switch for study mode
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "Study Mode",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Switch(
-                                        value: true,
-                                        onChanged: (value) {},
-                                        activeColor: Colors.deepPurple,
-                                      ),
-                                    ],
-                                  ),
-
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        PurpleLearnButton(
-                                          ref: ref,
-                                          lecture: lecture,
-                                          text: 'Learn By Flashcards',
-                                          onPressed: () {
-                                            ref
-                                                .read(
-                                                    flashCardsLearningStateControllerProvider
-                                                        .notifier)
-                                                .startLearning(
-                                                  flashCards:
-                                                      lecture.flashCards,
-                                                  courseId: lecture.courseId,
-                                                  lectureId: lecture.id,
-                                                  userId: ref
-                                                          .read(userProvider)
-                                                          ?.id ??
-                                                      '',
-                                                );
-                                          },
-                                        ),
-                                        PurpleLearnButton(
-                                          ref: ref,
-                                          lecture: lecture,
-                                          text: 'Teach Me',
-                                          onPressed: () {
-                                            // TODO: Teach me
-                                          },
-                                        ),
-                                        PurpleLearnButton(
-                                          ref: ref,
-                                          lecture: lecture,
-                                          text: 'Test Me',
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                      studyModelSheet(context, lecture);
                     },
                     borderRadius: BorderRadius.circular(10),
                     child: const Center(
@@ -294,8 +211,8 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
               ),
             );
           },
-          loading: () => Scaffold(
-            body: const Center(child: CircularProgressIndicator()),
+          loading: () => const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
           ),
           error: (error, _) => Scaffold(
             body: Center(
@@ -303,6 +220,84 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
             ),
           ),
         );
+  }
+
+  Future<dynamic> studyModelSheet(BuildContext context, LectureModel lecture) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+          child: SizedBox(
+            height: 300.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                // toggle switch for study mode
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Study Mode",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Switch(
+                      value: true,
+                      onChanged: (value) {},
+                      activeColor: Colors.deepPurple,
+                    ),
+                  ],
+                ),
+
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      PurpleLearnButton(
+                        ref: ref,
+                        lecture: lecture,
+                        text: 'Learn By Flashcards',
+                        onPressed: () {
+                          ref
+                              .read(flashCardsLearningStateControllerProvider
+                                  .notifier)
+                              .startLearning(
+                                flashCards: lecture.flashCards,
+                                courseId: lecture.courseId,
+                                lectureId: lecture.id,
+                                userId: ref.read(userProvider)?.id ?? '',
+                              );
+                        },
+                      ),
+                      PurpleLearnButton(
+                        ref: ref,
+                        lecture: lecture,
+                        text: 'Teach Me',
+                        onPressed: () {
+                          // TODO: Teach me
+                        },
+                      ),
+                      PurpleLearnButton(
+                        ref: ref,
+                        lecture: lecture,
+                        text: 'Test Me',
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
