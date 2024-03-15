@@ -12,11 +12,20 @@ class LecturesScreen extends ConsumerWidget {
   final String courseId;
   final String? courseName;
   const LecturesScreen({super.key, required this.courseId, this.courseName});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String? courseNameRiv;
+    ref.watch(courseLecturesProvider(courseId)).when(
+          data: (data) {
+            courseNameRiv = data.name;
+          },
+          error: (e, st) => Center(child: Text(e.toString())),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        );
     return Scaffold(
       appBar: AppBar(
-        title: Text(courseName ?? 'Course Name'),
+        title: Text(courseNameRiv ?? "Lectures"),
       ),
       body: ref.watch(courseLecturesProvider(courseId)).when(
             data: (data) {

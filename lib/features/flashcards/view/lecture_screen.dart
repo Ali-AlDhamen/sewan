@@ -234,15 +234,47 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                                       ),
                                       child: TextButton(
                                         onPressed: () {
-                                          ref.read(flashCardsLearningStateControllerProvider.notifier).startLearning(
-                                            flashCards: lecture.flashCards,
-                                            courseId: lecture.courseId,
-                                            lectureId: lecture.id,
-                                            userId: ref.read(userProvider)?.id ?? '',
-                                          );
+                                          ref
+                                              .read(
+                                                  flashCardsLearningStateControllerProvider
+                                                      .notifier)
+                                              .startLearning(
+                                                flashCards: lecture.flashCards,
+                                                courseId: lecture.courseId,
+                                                lectureId: lecture.id,
+                                                userId: ref
+                                                        .read(userProvider)
+                                                        ?.id ??
+                                                    '',
+                                              );
                                         },
                                         child: const Text(
                                           "Learn by Flashcards",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 40, vertical: 20),
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: Colors.deepPurple,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: TextButton(
+                                        onPressed: () {
+                                          //TODO: Later
+                                        },
+                                        child: const Text(
+                                          "Teach me",
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 18,
