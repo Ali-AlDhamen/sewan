@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sewan/core/models/flashcard_model.dart';
 import 'package:sewan/core/models/get_lecture_params.dart';
+import 'package:sewan/core/models/lecture_model.dart';
 import 'package:sewan/features/auth/controller/auth_controller.dart';
 import 'package:sewan/features/flashcards/controller/flashcards_controller.dart';
 import 'package:sewan/features/flashcards/state/flashcard_learning_state_controller.dart';
@@ -191,128 +194,89 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                   child: InkWell(
                     onTap: () {
                       showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: Container(
-                                height: 250,
-                                child: Column(
-                                  children: [
-                                    // toggle switch for study mode
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          "Study Mode",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                        context: context,
+                        builder: (context) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20.w, vertical: 10.h),
+                            child: SizedBox(
+                              height: 300.h,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  // toggle switch for study mode
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "Study Mode",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        Switch(
-                                          value: true,
-                                          onChanged: (value) {},
-                                          activeColor: Colors.deepPurple,
+                                      ),
+                                      Switch(
+                                        value: true,
+                                        onChanged: (value) {},
+                                        activeColor: Colors.deepPurple,
+                                      ),
+                                    ],
+                                  ),
+
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        PurpleLearnButton(
+                                          ref: ref,
+                                          lecture: lecture,
+                                          text: 'Learn By Flashcards',
+                                          onPressed: () {
+                                            ref
+                                                .read(
+                                                    flashCardsLearningStateControllerProvider
+                                                        .notifier)
+                                                .startLearning(
+                                                  flashCards:
+                                                      lecture.flashCards,
+                                                  courseId: lecture.courseId,
+                                                  lectureId: lecture.id,
+                                                  userId: ref
+                                                          .read(userProvider)
+                                                          ?.id ??
+                                                      '',
+                                                );
+                                          },
+                                        ),
+                                        PurpleLearnButton(
+                                          ref: ref,
+                                          lecture: lecture,
+                                          text: 'Teach Me',
+                                          onPressed: () {
+                                            // TODO: Teach me
+                                          },
+                                        ),
+                                        PurpleLearnButton(
+                                          ref: ref,
+                                          lecture: lecture,
+                                          text: 'Test Me',
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
                                         ),
                                       ],
                                     ),
-
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 40, vertical: 20),
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        color: Colors.deepPurple,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          ref
-                                              .read(
-                                                  flashCardsLearningStateControllerProvider
-                                                      .notifier)
-                                              .startLearning(
-                                                flashCards: lecture.flashCards,
-                                                courseId: lecture.courseId,
-                                                lectureId: lecture.id,
-                                                userId: ref
-                                                        .read(userProvider)
-                                                        ?.id ??
-                                                    '',
-                                              );
-                                        },
-                                        child: const Text(
-                                          "Learn by Flashcards",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 40, vertical: 20),
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        color: Colors.deepPurple,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          //TODO: Later
-                                        },
-                                        child: const Text(
-                                          "Teach me",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 40, vertical: 20),
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        color: Colors.deepPurple,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          "Learn by Quiz",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
-                            );
-                          });
+                            ),
+                          );
+                        },
+                      );
                     },
                     borderRadius: BorderRadius.circular(10),
                     child: const Center(
@@ -339,5 +303,45 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
             ),
           ),
         );
+  }
+}
+
+class PurpleLearnButton extends StatelessWidget {
+  const PurpleLearnButton({
+    super.key,
+    required this.ref,
+    required this.lecture,
+    required this.text,
+    required this.onPressed,
+  });
+
+  final WidgetRef ref;
+  final LectureModel lecture;
+  final String text;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 40),
+      height: 60,
+      decoration: BoxDecoration(
+        color: Colors.deepPurple,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 }
