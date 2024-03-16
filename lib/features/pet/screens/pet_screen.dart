@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +8,10 @@ import 'package:lottie/lottie.dart';
 import 'package:sewan/core/constants/assets_constants.dart';
 import 'package:sewan/core/models/user_model.dart';
 import 'package:sewan/features/auth/controller/auth_controller.dart';
+import 'package:sewan/features/flashcards/controller/flashcards_controller.dart';
+import 'package:sewan/features/flashcards/view/widgets/course_widget.dart';
 import 'package:sewan/features/quiz/controller/quiz_controller.dart';
+import 'package:sewan/theme/app_colors.dart';
 
 class PetScreen extends ConsumerStatefulWidget {
   const PetScreen({super.key});
@@ -67,8 +72,7 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                                   width: 40.w,
                                   padding: EdgeInsets.all(2.sp),
                                   // CHANGE TO PROFILE IMAGE
-                                  child: Image.asset(
-                                      AssetsConstants.toastFailIcon),
+                                  child: const Icon(Icons.person),
                                 ),
                               ],
                             ),
@@ -107,11 +111,11 @@ class _PetScreenState extends ConsumerState<PetScreen> {
           child: Stack(
             children: [
               Positioned(
-                left: -550,
-                top: -150,
+                left: -70,
+                top: -130,
                 child: SizedBox(
-                  height: 1.sh,
-                  width: 1.sw,
+                  height: 0.65.sh,
+                  width: 0.65.sw,
                   child: Lottie.asset(
                     AssetsConstants.petAnimation,
                     width: double.infinity,
@@ -127,7 +131,7 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                   height: 0.35.sh,
                   width: 1.sw,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(0.9),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40.r),
                       topRight: Radius.circular(40.r),
@@ -149,10 +153,10 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                               text: "5 🔥",
                             ),
                             OptionContainer(
-                              text: "10 Daily Hours",
+                              text: "10\nDaily Hours",
                             ),
                             OptionContainer(
-                              text: "200 Total Hours",
+                              text: "200\nTotal Hours",
                             ),
                           ],
                         ),
@@ -161,7 +165,7 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                         children: [
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                            child: const Text("Recent Lecture"),
+                            child: const Text("Recent Courses"),
                           ),
                           const Spacer(),
                           Padding(
@@ -170,62 +174,33 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(16.sp),
-                        child: Container(
-                          height: 100.h,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.r),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 70.h,
-                                width: 70.w,
-                                margin: EdgeInsets.all(8.sp),
-                                decoration: const BoxDecoration(
-                                  color: Colors.black,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text("Lecture Name"),
-                                  Text(
-                                    "Course Name",
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.grey,
-                                    ),
+                      ref.watch(userCoursesProvider).when(
+                            data: (data) {
+                              if (data.isNotEmpty) {
+                                return Expanded(
+                                  child: ListView.builder(
+                                    itemCount:
+                                        data.length > 1 ? 2 : data.length,
+                                    itemBuilder: (context, index) {
+                                      return CourseWidget(
+                                        course: data[index],
+                                      );
+                                    },
                                   ),
-                                ],
+                                );
+                              } else {
+                                return const SizedBox();
+                              }
+                            },
+                            loading: () => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            error: (error, stack) => Center(
+                              child: Text(
+                                error.toString(),
                               ),
-                              const Spacer(),
-                              const Text("20/30"),
-                              Container(
-                                height: 30.h,
-                                width: 30.w,
-                                margin: EdgeInsets.all(8.sp),
-                                decoration: const BoxDecoration(
-                                  color: Colors.black,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -235,7 +210,7 @@ class _PetScreenState extends ConsumerState<PetScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showBottomSheet(
+            showModalBottomSheet(
               context: context,
               builder: (context) {
                 return SizedBox(
@@ -279,11 +254,14 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                                   sessionId: _roomIdController.text,
                                 );
                           },
-                          child: const Text('Join Room',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
+                          child: const Text(
+                            'Join Room',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -307,16 +285,24 @@ class OptionContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80.h,
-      width: 80.w,
+      height: 100.h,
+      width: 100.w,
       decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(30.r),
+        color: AppColors.light.primary,
+        shape: BoxShape.circle,
       ),
       child: Padding(
         padding: EdgeInsets.all(8.sp),
         child: Center(
-          child: FittedBox(child: Text(text)),
+          child: FittedBox(
+              child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
         ),
       ),
     );
