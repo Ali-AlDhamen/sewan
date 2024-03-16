@@ -115,19 +115,19 @@ class FlashCardLearning extends ConsumerWidget {
                       ),
                       backgroundColor: Colors.green,
                       disabledBackgroundColor: Colors.grey.withOpacity(0.5),
-
                     ),
                     onPressed: !state.clicked
                         ? null
-                        :() {
-                      ref
-                          .read(flashCardsLearningStateControllerProvider
-                              .notifier)
-                          .changeFlashCardStatus(
-                            flashcard: state.flashCards[state.currentIndex],
-                            status: FlashCardStatus.completed,
-                          );
-                    },
+                        : () {
+                            ref
+                                .read(flashCardsLearningStateControllerProvider
+                                    .notifier)
+                                .changeFlashCardStatus(
+                                  flashcard:
+                                      state.flashCards[state.currentIndex],
+                                  status: FlashCardStatus.completed,
+                                );
+                          },
                     child: const Text('Mastered',
                         style: TextStyle(color: Colors.white)),
                   ),

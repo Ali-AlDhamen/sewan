@@ -13,11 +13,13 @@ class LectureWidget extends ConsumerWidget {
     final width = MediaQuery.sizeOf(context).width;
     return GestureDetector(
       onTap: () {
-        context.pushNamed('lecture screen',
-            pathParameters: {
-              'lectureId': lecture.id,
-              'courseId': lecture.courseId,
-            });
+        context.pushNamed(
+          'lecture screen',
+          pathParameters: {
+            'lectureId': lecture.id,
+            'courseId': lecture.courseId,
+          },
+        );
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

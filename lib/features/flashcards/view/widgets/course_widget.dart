@@ -11,7 +11,8 @@ class CourseWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed('course screen', pathParameters: {'courseId': course.id} );
+        context.pushNamed('course screen',
+            pathParameters: {'courseId': course.id});
       },
       child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

@@ -36,7 +36,7 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
@@ -49,7 +49,7 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Welcome, ${user?.name}"),
+                        Text("Welcome, ${user?.name ?? ""}"),
                         8.verticalSpace,
                         Row(
                           children: [
@@ -67,8 +67,8 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                                   width: 40.w,
                                   padding: EdgeInsets.all(2.sp),
                                   // CHANGE TO PROFILE IMAGE
-                                  child:
-                                      Image.asset(AssetsConstants.toastFailIcon),
+                                  child: Image.asset(
+                                      AssetsConstants.toastFailIcon),
                                 ),
                               ],
                             ),
@@ -77,7 +77,8 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                               children: [
                                 SizedBox(
                                   width: 50.w,
-                                  child: const FittedBox(child: Text("Level 5")),
+                                  child:
+                                      const FittedBox(child: Text("Level 5")),
                                 ),
                                 SizedBox(
                                   width: 50.w,
@@ -126,7 +127,7 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                   height: 0.35.sh,
                   width: 1.sw,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40.r),
                       topRight: Radius.circular(40.r),
@@ -136,33 +137,22 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            left: 16.sp, top: 16.sp, right: 16.sp),
-                        child: const Row(
-                          children: [
-                            Text("Your Pet"),
-                            Spacer(),
-                            Text("Change"),
-                          ],
+                          left: 16.sp,
+                          bottom: 8.sp,
+                          right: 16.sp,
+                          top: 16.sp,
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                        child: const Divider(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 16.sp, bottom: 8.sp, right: 16.sp),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             OptionContainer(
-                              text: "Streak",
+                              text: "5 🔥",
                             ),
                             OptionContainer(
-                              text: "Daily Goals",
+                              text: "10 Daily Hours",
                             ),
                             OptionContainer(
-                              text: "Study Hours",
+                              text: "200 Total Hours",
                             ),
                           ],
                         ),
@@ -192,7 +182,7 @@ class _PetScreenState extends ConsumerState<PetScreen> {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
@@ -246,59 +236,61 @@ class _PetScreenState extends ConsumerState<PetScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheet(
-                context: context,
-                builder: (context) {
-                  return Container(
-                    height: 400.h,
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(16.sp),
-                          width: double.infinity,
-                        
-                          child: TextField(
-                            controller: _roomIdController,
-                            keyboardType: TextInputType.text,
-                            decoration:  InputDecoration(
-                              hintText: "Enter Room ID",
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: Colors.deepPurple),
-                              ),
+              context: context,
+              builder: (context) {
+                return SizedBox(
+                  height: 400.h,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(16.sp),
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _roomIdController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "Enter Room ID",
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10.w),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide:
+                                  const BorderSide(color: Colors.deepPurple),
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.all(16.sp),
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepPurple,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.all(15),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(16.sp),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepPurple,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            onPressed: () {
-                              ref.read(quizControllerProvider.notifier).joinOnlineQuizSession(
-                                context: context,
-                                sessionId: _roomIdController.text,
-                              );
-                                  
-                            },
-                            child: const Text('Join Room',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold)),
+                            padding: const EdgeInsets.all(15),
                           ),
+                          onPressed: () {
+                            ref
+                                .read(quizControllerProvider.notifier)
+                                .joinOnlineQuizSession(
+                                  context: context,
+                                  sessionId: _roomIdController.text,
+                                );
+                          },
+                          child: const Text('Join Room',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
                         ),
-                      ],
-                    ),
-                  );
-                });
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
           },
           child: const Icon(Icons.add),
         ),
