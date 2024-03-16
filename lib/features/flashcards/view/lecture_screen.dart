@@ -34,7 +34,7 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {  
+  Widget build(BuildContext context) {
     return ref
         .watch(lectureProvider(GetLectureParams(
             courseId: widget.courseId, lectureId: widget.lectureId)))
@@ -52,10 +52,13 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                 notStarted++;
               }
             }
-            final title = lecture.title.split('.').sublist(0, lecture.title.split('.').length - 1).join('.');
+            final title = lecture.title
+                .split('.')
+                .sublist(0, lecture.title.split('.').length - 1)
+                .join('.');
             return Scaffold(
               appBar: AppBar(
-                title:  FittedBox(
+                title: FittedBox(
                   child: Text(
                     title,
                     style: const TextStyle(
@@ -201,100 +204,6 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
                     onTap: () {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: Container(
-                                height: 250,
-                                child: Column(
-                                  children: [
-                                    // toggle switch for study mode
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          "Study Mode",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Switch(
-                                          value: true,
-                                          onChanged: (value) {},
-                                          activeColor: Colors.deepPurple,
-                                        ),
-                                      ],
-                                    ),
-
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 40, vertical: 20),
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        color: Colors.deepPurple,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          ref.read(flashCardsLearningStateControllerProvider.notifier).startLearning(
-                                            flashCards: lecture.flashCards,
-                                            courseId: lecture.courseId,
-                                            lectureId: lecture.id,
-                                            userId: ref.read(userProvider)?.id ?? '',
-                                          );
-                                        },
-                                        child: const Text(
-                                          "Learn by Flashcards",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 40, vertical: 20),
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        color: Colors.deepPurple,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          context.goNamed('Quiz Settings', pathParameters: {
-                                            'courseId': lecture.courseId,
-                                            'lectureId': lecture.id,
-                                          });
-                                        },
-                                        child: const Text(
-                                          "Learn by Quiz",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          });
                       studyModelSheet(context, lecture);
                     },
                     borderRadius: BorderRadius.circular(10),
@@ -388,7 +297,10 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                         lecture: lecture,
                         text: 'Test Me',
                         onPressed: () {
-                          Navigator.pop(context);
+                          context.goNamed('Quiz Settings', pathParameters: {
+                            'courseId': lecture.courseId,
+                            'lectureId': lecture.id,
+                          });
                         },
                       ),
                     ],
