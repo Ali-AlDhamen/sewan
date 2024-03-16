@@ -61,12 +61,18 @@ class FlashCardsRepository {
     }
   }
 
-  Future<List<CourseModel>> getCourses(String userId) async {
-    final snapshot = await _users
+  Stream<List<CourseModel>> getCourses(String userId) {
+    final courses = _users
         .doc(userId)
         .collection(FirebaseConstants.coursesCollection)
-        .get();
-    return snapshot.docs.map((e) => CourseModel.fromMap(e.data())).toList();
+        .snapshots()
+        .map((event) {
+      return event.docs
+          .map((e) => CourseModel.fromMap(e.data() as Map<String, dynamic>))
+          .toList();
+    });
+
+    return courses;
   }
 
   Future<CourseModel> getCourseLectures(String userId, String courseId) async {
@@ -84,21 +90,22 @@ class FlashCardsRepository {
     }
   }
 
-  Future<LectureModel> getLecture(
+  Stream<LectureModel> getLecture(
       {required String userId,
       required String lectureId,
-      required String courseId}) async {
+      required String courseId}) {
     try {
-      final snapshot = await _users
+      final lecture = _users
           .doc(userId)
           .collection(FirebaseConstants.coursesCollection)
           .doc(courseId)
-          .get();
+          .snapshots()
+          .map((event) {
+        final course =
+            CourseModel.fromMap(event.data() as Map<String, dynamic>);
+        return course.lectures.firstWhere((element) => element.id == lectureId);
+      });
 
-      final course =
-          CourseModel.fromMap(snapshot.data() as Map<String, dynamic>);
-      final lecture =
-          course.lectures.firstWhere((element) => element.id == lectureId);
       return lecture;
     } on FirebaseException catch (e) {
       throw Failure(e.toString());
@@ -107,15 +114,16 @@ class FlashCardsRepository {
     }
   }
 
-  FutureVoid changeFlashCardStatus(
-      {required String userId,
-      required String courseId,
-      required String lectureId,
-      required FlashCardModel flashCardModel,
-      }) async {
+  FutureVoid changeFlashCardStatus({
+    required String userId,
+    required String courseId,
+    required String lectureId,
+    required FlashCardModel flashCardModel,
+  }) async {
     try {
       final course = await getCourseLectures(userId, courseId);
-      final lecture = course.lectures.firstWhere((element) => element.id == lectureId);
+      final lecture =
+          course.lectures.firstWhere((element) => element.id == lectureId);
       final newFlashCards = lecture.flashCards.map((e) {
         if (e.id == flashCardModel.id) {
           return flashCardModel;
@@ -133,7 +141,7 @@ class FlashCardsRepository {
           return e;
         }).toList(),
       );
-      
+
       await _users.doc(userId).update({
         'points': FieldValue.increment(1),
       });
@@ -142,7 +150,6 @@ class FlashCardsRepository {
           .collection(FirebaseConstants.coursesCollection)
           .doc(courseId)
           .update(newCourse.toMap()));
-
     } on FirebaseException catch (e) {
       throw Failure(e.toString());
     } catch (e) {
@@ -150,5 +157,3 @@ class FlashCardsRepository {
     }
   }
 }
-  
-

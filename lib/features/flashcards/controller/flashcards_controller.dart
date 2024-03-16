@@ -23,7 +23,7 @@ final flashCardsControllerProvider =
   );
 });
 
-final userCoursesProvider = FutureProvider<List<CourseModel>>((ref) {
+final userCoursesProvider = StreamProvider<List<CourseModel>>((ref) {
   final flashCardsController = ref.watch(flashCardsControllerProvider.notifier);
   return flashCardsController.getCourses();
 });
@@ -35,7 +35,7 @@ final courseLecturesProvider =
 });
 
 final lectureProvider =
-    FutureProvider.family<LectureModel, GetLectureParams>((ref, params) {
+    StreamProvider.family<LectureModel, GetLectureParams>((ref, params) {
   final flashCardsController = ref.watch(flashCardsControllerProvider.notifier);
   return flashCardsController.getLecture(params.courseId, params.lectureId);
 });
@@ -83,9 +83,9 @@ class FlashCardsController extends StateNotifier<AsyncValue<void>> {
     });
   }
 
-  Future<List<CourseModel>> getCourses() async {
+  Stream<List<CourseModel>> getCourses() {
     final userId = _ref.read(authProvider).currentUser!.uid;
-    final result = await _flashCardsRepository.getCourses(userId);
+    final result = _flashCardsRepository.getCourses(userId);
     return result;
   }
 
@@ -137,9 +137,9 @@ class FlashCardsController extends StateNotifier<AsyncValue<void>> {
     return result;
   }
 
-  Future<LectureModel> getLecture(String courseId, String lectureId) async {
+  Stream<LectureModel> getLecture(String courseId, String lectureId) {
     final userId = _ref.read(userProvider)?.id ?? '';
-    final result = await _flashCardsRepository.getLecture(
+    final result = _flashCardsRepository.getLecture(
       userId: userId,
       lectureId: lectureId,
       courseId: courseId,

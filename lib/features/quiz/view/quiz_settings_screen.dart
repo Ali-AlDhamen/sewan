@@ -79,8 +79,8 @@ class _QuizSettingsScreenState extends ConsumerState<QuizSettingsScreen> {
                 return SafeArea(
                   child: SingleChildScrollView(
                     child: Container(
-                      margin:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: [
@@ -89,7 +89,7 @@ class _QuizSettingsScreenState extends ConsumerState<QuizSettingsScreen> {
                             children: [
                               Text(
                                   'Number of Questions (max ${data.questions.length})',
-                                  style: const TextStyle(fontSize: 14)),
+                                  style: const TextStyle(fontSize: 12)),
                               SizedBox(
                                 width: 100,
                                 child: TextField(
@@ -112,7 +112,7 @@ class _QuizSettingsScreenState extends ConsumerState<QuizSettingsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text('Timer for each question (in seconds)',
-                                  style: TextStyle(fontSize: 14)),
+                                  style: TextStyle(fontSize: 12)),
                               SizedBox(
                                 width: 100,
                                 child: TextField(
@@ -195,7 +195,8 @@ class _QuizSettingsScreenState extends ConsumerState<QuizSettingsScreen> {
                                         height: 75,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           // deep purple borders
                                           border: Border.all(
                                             color: selectedMode == "Classic"
@@ -237,7 +238,8 @@ class _QuizSettingsScreenState extends ConsumerState<QuizSettingsScreen> {
                                         height: 75,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           // deep purple borders
                                           border: Border.all(
                                             color: selectedMode == "1v1"
@@ -279,7 +281,8 @@ class _QuizSettingsScreenState extends ConsumerState<QuizSettingsScreen> {
                                         height: 75,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           // deep purple borders
                                           border: Border.all(
                                             color: selectedMode == "Survival"
@@ -327,8 +330,8 @@ class _QuizSettingsScreenState extends ConsumerState<QuizSettingsScreen> {
                                       .read(quizControllerProvider.notifier)
                                       .createQuizSession(
                                         questions: getRandomQuestions(
-                                          int.parse(
-                                              _numberOfQuestionsController.text),
+                                          int.parse(_numberOfQuestionsController
+                                              .text),
                                           data.questions,
                                         ),
                                         courseId: widget.courseId,
@@ -337,18 +340,20 @@ class _QuizSettingsScreenState extends ConsumerState<QuizSettingsScreen> {
                                       );
                                 } else {
                                   ref
-                                      .read(quizStateControllerProvider.notifier)
+                                      .read(
+                                          quizStateControllerProvider.notifier)
                                       .loadTimer(
                                         int.parse(
                                           _timerController.text.trim(),
                                         ),
                                       );
                                   ref
-                                      .read(quizStateControllerProvider.notifier)
+                                      .read(
+                                          quizStateControllerProvider.notifier)
                                       .loadQuestions(
                                         getRandomQuestions(
-                                          int.parse(
-                                              _numberOfQuestionsController.text),
+                                          int.parse(_numberOfQuestionsController
+                                              .text),
                                           data.questions,
                                         ),
                                         ref,

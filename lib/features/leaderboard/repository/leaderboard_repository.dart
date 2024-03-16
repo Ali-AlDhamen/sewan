@@ -15,11 +15,15 @@ class LeaderboardRepository {
     required FirebaseFirestore firestore,
   }) : _firestore = firestore;
 
-  Future<List<UserModel>> getTopUser() async {
-    final users = await _firestore
+  Stream<List<UserModel>> getTopUser() {
+    return _firestore
         .collection('users')
-        .orderBy('points', descending: true)
-        .get();
-    return users.docs.map((e) => UserModel.fromMap(e.data())).toList();
+        .orderBy("points", descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return UserModel.fromMap(doc.data());
+      }).toList();
+    });
   }
 }
