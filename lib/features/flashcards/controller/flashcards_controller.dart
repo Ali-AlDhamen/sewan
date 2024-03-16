@@ -5,6 +5,7 @@ import 'package:sewan/core/models/course_model.dart';
 import 'package:sewan/core/models/flashcard_model.dart';
 import 'package:sewan/core/models/get_lecture_params.dart';
 import 'package:sewan/core/models/lecture_model.dart';
+import 'package:sewan/core/providers/firebase_providers.dart';
 import 'package:sewan/core/models/question.dart';
 import 'package:sewan/core/services/openai_services.dart';
 import 'package:sewan/core/utils/show_toast.dart';
@@ -33,8 +34,8 @@ final courseLecturesProvider =
   return flashCardsController.getCourseLectures(courseId);
 });
 
-final lectureProvider = FutureProvider.family<LectureModel, GetLectureParams>(
-    (ref, params) {
+final lectureProvider =
+    FutureProvider.family<LectureModel, GetLectureParams>((ref, params) {
   final flashCardsController = ref.watch(flashCardsControllerProvider.notifier);
   return flashCardsController.getLecture(params.courseId, params.lectureId);
 });
@@ -83,7 +84,7 @@ class FlashCardsController extends StateNotifier<AsyncValue<void>> {
   }
 
   Future<List<CourseModel>> getCourses() async {
-    final userId = _ref.read(userProvider)?.id ?? '';
+    final userId = _ref.read(authProvider).currentUser!.uid;
     final result = await _flashCardsRepository.getCourses(userId);
     return result;
   }
@@ -161,7 +162,7 @@ class FlashCardsController extends StateNotifier<AsyncValue<void>> {
     );
     result.fold(
       (l) => showToast(
-        context:  context,
+        context: context,
         message: l.message,
         type: ToastType.error,
       ),

@@ -62,7 +62,7 @@ class MainApp extends ConsumerWidget {
         return MaterialApp.router(
           builder: FToastBuilder(),
           debugShowCheckedModeBanner: false,
-          title: 'PMUSocialize',
+          title: 'Sewan',
           theme: Palette.lightModeThemeData,
           darkTheme: Palette.darkModeThemeData,
           themeMode: isDark ? ThemeMode.dark : ThemeMode.light,

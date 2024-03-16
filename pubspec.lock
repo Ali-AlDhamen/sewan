@@ -784,14 +784,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
-  read_pdf_text:
-    dependency: "direct main"
-    description:
-      name: read_pdf_text
-      sha256: "7e55a7ad033eae659204c7ba019030041bbad9435e33d7eb45a40410f82d6a64"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
   riverpod:
     dependency: "direct main"
     description:
@@ -965,6 +957,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: eac3cbf2278fa4993d9b97d92d050973025deebfbff970109843640dc770888c
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.1.35"
+  syncfusion_flutter_pdf:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_pdf
+      sha256: bb9cae6e4e20bf0c42bdc5c05573f007cf7cd981eac94a8101e4c6975e806929
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.1.35"
   term_glyph:
     dependency: transitive
     description:
