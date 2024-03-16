@@ -1,0 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sewan/core/models/user_model.dart';
+import 'package:sewan/core/providers/firebase_providers.dart';
+
+final leaderboardRepositoryProvider = Provider<LeaderboardRepository>((ref) {
+  return LeaderboardRepository(
+    firestore: ref.watch(firestoreProvider),
+  );
+});
+
+class LeaderboardRepository {
+  final FirebaseFirestore _firestore;
+  LeaderboardRepository({
+    required FirebaseFirestore firestore,
+  }) : _firestore = firestore;
+
+  Future<List<UserModel>> getTopUser() async {
+    final users = await _firestore
+        .collection('users')
+        .orderBy('points', descending: true)
+        .get();
+    return users.docs.map((e) => UserModel.fromMap(e.data())).toList();
+  }
+}

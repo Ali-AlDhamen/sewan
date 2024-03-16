@@ -60,7 +60,6 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                     title,
                     style: const TextStyle(
                       color: Colors.black,
-                             
                     ),
                   ),
                 ),

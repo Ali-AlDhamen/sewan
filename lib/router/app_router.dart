@@ -12,6 +12,7 @@ import 'package:sewan/features/flashcards/view/flashcard_learning_screen.dart';
 import 'package:sewan/features/flashcards/view/lecture_screen.dart';
 import 'package:sewan/features/flashcards/view/lectures_screen.dart';
 import 'package:sewan/features/home/screens/home_screen.dart';
+import 'package:sewan/features/leaderboard/view/leaderboard_screen.dart';
 import 'package:sewan/features/pet/screens/pet_screen.dart';
 import 'package:sewan/features/quiz/view/online_quiz_screen.dart';
 import 'package:sewan/features/quiz/view/quiz_screen.dart';
@@ -134,12 +135,7 @@ final goRouterProvider = Provider((ref) {
               GoRoute(
                 path: '/leaderboard',
                 builder: (context, state) {
-                  return Container(
-                    color: Colors.red,
-                    child: const Center(
-                      child: Text('leaderboard'),
-                    ),
-                  );
+                  return LeaderboardScreen();
                 },
               ),
             ],

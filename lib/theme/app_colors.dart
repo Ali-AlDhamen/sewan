@@ -7,7 +7,7 @@ class AppColors {
     primaryLighter: const Color(0xFFFFA870),
     primaryDarker: const Color(0xFFF54121),
     primaryTransparent: const Color(0xAAF76343),
-    secondary: const Color(0xFF0010C6),
+    secondary: Color.fromARGB(255, 104, 104, 104),
     secondaryTransparent: const Color(0xAA0010C6),
     string1: Colors.white,
     string2: const Color(0xFF3B3B3B),
