@@ -5,6 +5,7 @@ import 'package:sewan/core/models/course_model.dart';
 import 'package:sewan/core/models/flashcard_model.dart';
 import 'package:sewan/core/models/get_lecture_params.dart';
 import 'package:sewan/core/models/lecture_model.dart';
+import 'package:sewan/core/models/question.dart';
 import 'package:sewan/core/services/openai_services.dart';
 import 'package:sewan/core/utils/show_toast.dart';
 import 'package:sewan/features/auth/controller/auth_controller.dart';
@@ -95,17 +96,18 @@ class FlashCardsController extends StateNotifier<AsyncValue<void>> {
     final userId = _ref.read(userProvider)?.id ?? '';
     state = const AsyncLoading();
     List<FlashCardModel> flashcards = [];
-    final flashcardsResults = await _ref
+    List<Question> questions = [];
+    final openaiResponses = await _ref
         .read(openAIServicesProvider)
         .generateFlashCards(text: fileText);
-    flashcardsResults.fold((l) {
+    openaiResponses.fold((l) {
       showToast(
         context: context,
         message: l.message,
         type: ToastType.error,
       );
     }, (r) {
-      flashcards = r;
+      (flashcards, questions) = r;
     });
 
     final LectureModel lecture = LectureModel(
@@ -114,6 +116,7 @@ class FlashCardsController extends StateNotifier<AsyncValue<void>> {
       title: title,
       id: const Uuid().v4(),
       flashCards: flashcards,
+      questions: questions,
     );
     final result = await _flashCardsRepository.uploadLecture(lecture);
     state = const AsyncValue.data(null);

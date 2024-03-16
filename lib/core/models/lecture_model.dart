@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'package:sewan/core/models/flashcard_model.dart';
+import 'package:sewan/core/models/question.dart';
 
 class LectureModel {
   final String title;
@@ -11,14 +12,15 @@ class LectureModel {
   final List<FlashCardModel> flashCards;
   final String courseId;
   final String userId;
+  final List<Question> questions;
   LectureModel({
     required this.title,
     required this.id,
     required this.flashCards,
     required this.courseId,
     required this.userId,
+    required this.questions,
   });
-  
 
   LectureModel copyWith({
     String? title,
@@ -26,6 +28,7 @@ class LectureModel {
     List<FlashCardModel>? flashCards,
     String? courseId,
     String? userId,
+    List<Question>? questions,
   }) {
     return LectureModel(
       title: title ?? this.title,
@@ -33,6 +36,7 @@ class LectureModel {
       flashCards: flashCards ?? this.flashCards,
       courseId: courseId ?? this.courseId,
       userId: userId ?? this.userId,
+      questions: questions ?? this.questions,
     );
   }
 
@@ -43,6 +47,7 @@ class LectureModel {
       'flashCards': flashCards.map((x) => x.toMap()).toList(),
       'courseId': courseId,
       'userId': userId,
+      'questions': questions.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -53,6 +58,7 @@ class LectureModel {
       flashCards: List<FlashCardModel>.from((map['flashCards'] as List<dynamic>).map<FlashCardModel>((x) => FlashCardModel.fromMap(x as Map<String,dynamic>),),),
       courseId: map['courseId'] as String,
       userId: map['userId'] as String,
+      questions: List<Question>.from((map['questions'] as List<dynamic>).map<Question>((x) => Question.fromMap(x as Map<String,dynamic>),),),
     );
   }
 
@@ -62,7 +68,7 @@ class LectureModel {
 
   @override
   String toString() {
-    return 'LectureModel(title: $title, id: $id, flashCards: $flashCards, courseId: $courseId, userId: $userId)';
+    return 'LectureModel(title: $title, id: $id, flashCards: $flashCards, courseId: $courseId, userId: $userId, questions: $questions)';
   }
 
   @override
@@ -74,7 +80,8 @@ class LectureModel {
       other.id == id &&
       listEquals(other.flashCards, flashCards) &&
       other.courseId == courseId &&
-      other.userId == userId;
+      other.userId == userId &&
+      listEquals(other.questions, questions);
   }
 
   @override
@@ -83,6 +90,7 @@ class LectureModel {
       id.hashCode ^
       flashCards.hashCode ^
       courseId.hashCode ^
-      userId.hashCode;
+      userId.hashCode ^
+      questions.hashCode;
   }
- }
+}

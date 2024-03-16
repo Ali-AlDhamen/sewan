@@ -31,7 +31,7 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     return ref
         .watch(lectureProvider(GetLectureParams(
             courseId: widget.courseId, lectureId: widget.lectureId)))
@@ -49,9 +49,18 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                 notStarted++;
               }
             }
+            final title = lecture.title.split('.').sublist(0, lecture.title.split('.').length - 1).join('.');
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Lecture title'),
+                title:  FittedBox(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.black,
+                             
+                    ),
+                  ),
+                ),
               ),
               body: Column(
                 children: [
@@ -264,7 +273,10 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
                                       ),
                                       child: TextButton(
                                         onPressed: () {
-                                          Navigator.pop(context);
+                                          context.goNamed('Quiz Settings', pathParameters: {
+                                            'courseId': lecture.courseId,
+                                            'lectureId': lecture.id,
+                                          });
                                         },
                                         child: const Text(
                                           "Learn by Quiz",
@@ -298,8 +310,8 @@ class _LectureScreenState extends ConsumerState<LectureScreen> {
               ),
             );
           },
-          loading: () => Scaffold(
-            body: const Center(child: CircularProgressIndicator()),
+          loading: () => const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
           ),
           error: (error, _) => Scaffold(
             body: Center(

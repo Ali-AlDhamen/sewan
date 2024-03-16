@@ -13,6 +13,11 @@ import 'package:sewan/features/flashcards/view/lecture_screen.dart';
 import 'package:sewan/features/flashcards/view/lectures_screen.dart';
 import 'package:sewan/features/home/screens/home_screen.dart';
 import 'package:sewan/features/pet/screens/pet_screen.dart';
+import 'package:sewan/features/quiz/view/online_quiz_screen.dart';
+import 'package:sewan/features/quiz/view/quiz_screen.dart';
+import 'package:sewan/features/quiz/view/quiz_settings_screen.dart';
+import 'package:sewan/features/quiz/view/results_screen.dart';
+import 'package:sewan/features/quiz/view/room_screen.dart';
 import 'package:sewan/router/app_routes.dart';
 import 'package:sewan/router/go_refresh_stream_provider.dart';
 
@@ -92,21 +97,35 @@ final goRouterProvider = Provider((ref) {
                     },
                     routes: [
                       GoRoute(
-                        name: 'lecture screen',
-                        path: ':lectureId',
-                        builder: (context, state) {
-                          final courseId = state.pathParameters['courseId'];
-                          final lectureId = state.pathParameters['lectureId'];
-                          return LectureScreen(
-                            courseId: courseId!,
-                            lectureId: lectureId!,
-                          );
-                        },
-                      ),
+                          name: 'lecture screen',
+                          path: ':lectureId',
+                          builder: (context, state) {
+                            final courseId = state.pathParameters['courseId'];
+                            final lectureId = state.pathParameters['lectureId'];
+                            return LectureScreen(
+                              courseId: courseId!,
+                              lectureId: lectureId!,
+                            );
+                          },
+                          routes: [
+                            GoRoute(
+                              name: 'Quiz Settings',
+                              path: 'quiz-settings',
+                              builder: (context, state) {
+                                final courseId = state.pathParameters['courseId'];
+                              final lectureId = state.pathParameters['lectureId'];
+                                return  QuizSettingsScreen(
+                                  courseId: courseId!,
+                                  lectureId: lectureId!,
+                                );
+                              },
+                            ),
+                          ]),
                     ],
                   ),
                 ],
               ),
+              
             ],
           ),
           StatefulShellBranch(
@@ -166,6 +185,31 @@ final goRouterProvider = Provider((ref) {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: '/room/:sessionId',
+        name: 'room screen',
+        builder: (context, state) =>  RoomScreen(
+          sessionId: state.pathParameters['sessionId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/online-quiz/:sessionId',
+        name: 'online quiz screen',
+        builder: (context, state) =>  OnlineQuizScreen (
+          sessionId: state.pathParameters['sessionId']!,
+        )
+      ),
+      GoRoute(
+        path: '/quiz',
+        name: 'quiz screen',
+        builder: (context, state) => const QuizScreen(),
+      ),
+      GoRoute(
+        // results
+        path: '/results',
+        name: 'results screen',
+        builder: (context, state) => ResultScreen(),
       ),
       GoRoute(
         path: AppRoutes.login.path,

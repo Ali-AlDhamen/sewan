@@ -133,7 +133,10 @@ class FlashCardsRepository {
           return e;
         }).toList(),
       );
-
+      
+      await _users.doc(userId).update({
+        'points': FieldValue.increment(1),
+      });
       return right(_users
           .doc(userId)
           .collection(FirebaseConstants.coursesCollection)

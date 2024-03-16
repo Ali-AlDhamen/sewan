@@ -3,7 +3,7 @@ import 'package:sewan/theme/colors_model.dart';
 
 class AppColors {
   static ColorsModel light = ColorsModel(
-    primary: const Color(0xFFF76343),
+    primary: Colors.deepPurple,
     primaryLighter: const Color(0xFFFFA870),
     primaryDarker: const Color(0xFFF54121),
     primaryTransparent: const Color(0xAAF76343),
@@ -18,7 +18,7 @@ class AppColors {
   );
 
   static ColorsModel dark = ColorsModel(
-    primary: const Color(0xFFF76343),
+    primary: Colors.deepPurple,
     primaryLighter: const Color(0xFFFFA870),
     primaryDarker: const Color(0xFFF54121),
     primaryTransparent: const Color(0xAAF76343),
