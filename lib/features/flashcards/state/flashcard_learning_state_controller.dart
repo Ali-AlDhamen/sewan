@@ -28,7 +28,6 @@ class FlashcardLearningState {
     required this.userId,
     required this.clicked,
   });
-  
 
   FlashcardLearningState copyWith({
     int? currentIndex,
@@ -66,7 +65,11 @@ class FlashcardLearningState {
     return FlashcardLearningState(
       currentIndex: map['currentIndex'] as int,
       id: map['id'] as String,
-      flashCards: List<FlashCardModel>.from((map['flashCards'] as List<dynamic>).map<FlashCardModel>((x) => FlashCardModel.fromMap(x as Map<String,dynamic>),),),
+      flashCards: List<FlashCardModel>.from(
+        (map['flashCards'] as List<dynamic>).map<FlashCardModel>(
+          (x) => FlashCardModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       courseId: map['courseId'] as String,
       lectureId: map['lectureId'] as String,
       userId: map['userId'] as String,
@@ -76,7 +79,9 @@ class FlashcardLearningState {
 
   String toJson() => json.encode(toMap());
 
-  factory FlashcardLearningState.fromJson(String source) => FlashcardLearningState.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory FlashcardLearningState.fromJson(String source) =>
+      FlashcardLearningState.fromMap(
+          json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -86,26 +91,25 @@ class FlashcardLearningState {
   @override
   bool operator ==(covariant FlashcardLearningState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.currentIndex == currentIndex &&
-      other.id == id &&
-      listEquals(other.flashCards, flashCards) &&
-      other.courseId == courseId &&
-      other.lectureId == lectureId &&
-      other.userId == userId &&
-      other.clicked == clicked;
+
+    return other.currentIndex == currentIndex &&
+        other.id == id &&
+        listEquals(other.flashCards, flashCards) &&
+        other.courseId == courseId &&
+        other.lectureId == lectureId &&
+        other.userId == userId &&
+        other.clicked == clicked;
   }
 
   @override
   int get hashCode {
     return currentIndex.hashCode ^
-      id.hashCode ^
-      flashCards.hashCode ^
-      courseId.hashCode ^
-      lectureId.hashCode ^
-      userId.hashCode ^
-      clicked.hashCode;
+        id.hashCode ^
+        flashCards.hashCode ^
+        courseId.hashCode ^
+        lectureId.hashCode ^
+        userId.hashCode ^
+        clicked.hashCode;
   }
 }
 
@@ -149,7 +153,9 @@ class FlashCardsLearningStateController
       userId: userId,
       flashCards: flashCards,
     );
-    _ref.read(goRouterProvider).goNamed("Flashcards session", pathParameters: {
+    _ref
+        .read(goRouterProvider)
+        .pushNamed("Flashcards session", pathParameters: {
       "sessionId": id,
     });
   }
@@ -171,8 +177,8 @@ class FlashCardsLearningStateController
           userId: state.userId,
         );
     if (state.currentIndex < state.flashCards.length - 1) {
-      state = state.copyWith(currentIndex: state.currentIndex + 1, clicked: false);
-
+      state =
+          state.copyWith(currentIndex: state.currentIndex + 1, clicked: false);
     } else {
       _ref.invalidate(lectureProvider(GetLectureParams(
           courseId: state.courseId, lectureId: state.lectureId)));
@@ -183,7 +189,7 @@ class FlashCardsLearningStateController
     }
   }
 
-  void show(){
+  void show() {
     print("click");
     state = state.copyWith(clicked: true);
   }
